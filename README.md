@@ -1,1 +1,1 @@
-# Next word predictor using Long SHort Term Memory.
+# Next word predictor using Long Short Term Memory.
