@@ -1,5 +1,5 @@
 # Next word predictor using Long Short Term Memory(LSTM).
-This Dataset is from Kaggle.
+This Dataset is from Kaggle:- 
 ## Overview  
 The LSTM Next-Word Predictor is a deep learning-based application designed to predict the next word based on user input (a word or sentence). Trained on a predefined dataset, the model leverages LSTM (Long Short-Term Memory) networks for sequence learning, ensuring contextually accurate and relevant predictions.  
 
@@ -7,11 +7,6 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
 - Accepts user input (word or sentence) to generate the next word suggestion.  
 - Built with LSTM architecture optimized for text sequence modeling.  
 - Trained on a predefined dataset for reliable predictions.  
-
-## Tech Stack  
-- **Python**: Core programming language  
-- **TensorFlow/Keras**: Frameworks for building and training the LSTM model  
-- **Jupyter Notebook**: Development environment for experimentation and training  
 
 ## How It Works  
 1. The user inputs a word or sentence.  
@@ -29,9 +24,4 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
    ```bash
    python app.py
 ## Output
-
-https://github.com/user-attachments/assets/f570842c-e22d-41b5-b7d8-e891b5f48a6d
-
-
-
-
+![image](https://github.com/user-attachments/assets/9cd9e554-f755-4269-accf-bf39863e3cc5)
