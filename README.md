@@ -16,7 +16,7 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
 ## Installation and Setup  
 1. Clone this repository:  
    ```bash
-   git clone https://github.com/your-username/LSTM_Next-word-predictor.git
+   git clone https://github.com/Vruddhi18/LSTM_Next-word-predictor.git
 2. Install dependencies
    ```bash
    pip install -r requirements.txt
