@@ -1,14 +1,15 @@
-import streamlit as st
-import numpy as np
+from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
+import numpy as np
 import pickle
 
-# Load model and tokenizer
+app = Flask(__name__)
+
+# Load the model and tokenizer
 model = load_model('next_words.keras')
 tokenizer = pickle.load(open('token.pkl', 'rb'))
 
-# Prediction function
-def predict_word(text):
+def predict_word(model, tokenizer, text):
     sequence = tokenizer.texts_to_sequences([text])
     sequence = np.array(sequence)
     preds = np.argmax(model.predict(sequence), axis=-1)
@@ -17,21 +18,23 @@ def predict_word(text):
         if value == preds:
             predicted_word = key
             break
-    st.write(f"Predicted Next Word: **{predicted_word}**")
     return predicted_word
 
-# Streamlit UI
-st.title("Next Word Prediction")
-st.markdown("Enter a sentence or phrase, and I will predict the next word.")
-
-user_input = st.text_input("Type your text here:")
-
-if user_input:
-    # Split the text into the last three words (or less)
-    text_input = " ".join(user_input.split()[-3:])
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    if 'text' not in data:
+        return jsonify({'error': 'No text provided'}), 400
     
-    # Get the prediction
-    predicted_word = predict_word(text_input)
-    
-    # Display the result
-    st.write(f"Predicted Next Word: **{predicted_word}**")
+    text = data['text']
+    text = text.split(" ")
+    text = text[-3:]
+    predicted_word = predict_word(model, tokenizer, text)
+    return jsonify({'predicted_word': predicted_word})
+
+@app.route('/')
+def home():
+    return "Next-Word Predictor is running!"
+
+if __name__ == "__main__":
+    app.run(debug=True)
