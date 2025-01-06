@@ -1,6 +1,7 @@
+Flask
 tensorflow
+gdown
 numpy
-pandas
-flask
-pickle-mixin
-kagglehub
+transformers
+datasets
+torch
