@@ -1,5 +1,6 @@
 tensorflow
 numpy
 pandas
-pickle
+flask
+pickle-mixin
 kagglehub
