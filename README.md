@@ -22,6 +22,6 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
    pip install -r requirements.txt
 3. Run the predictor
    ```bash
-   python app.py
+   streamlit run app.py
 ## Output
 ![image](https://github.com/user-attachments/assets/9cd9e554-f755-4269-accf-bf39863e3cc5)
