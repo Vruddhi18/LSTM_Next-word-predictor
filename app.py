@@ -8,12 +8,12 @@ import gdown
 app = Flask(__name__)
 
 # Download model and tokenizer files from Google Drive
-url_model = "https://drive.google.com/file/d/1VmxkGEFA6XQV3guHviwgHlb55EpHa6aG/view?usp=drive_link"  
+url_model = " https://drive.google.com/uc?id=1VmxkGEFA6XQV3guHviwgHlb55EpHa6aG"  
 output_model = "next_words.keras"
 output_tokenizer = "token.pkl"
 
 gdown.download(url_model, output_model, quiet=False)
-gdown.download("https://drive.google.com/file/d/1VmxkGEFA6XQV3guHviwgHlb55EpHa6aG/view?usp=drive_link", output_tokenizer, quiet=False) 
+gdown.download(" https://drive.google.com/uc?id=1VmxkGEFA6XQV3guHviwgHlb55EpHa6aG", output_tokenizer, quiet=False) 
 
 # Load model and tokenizer
 model = load_model(output_model)
