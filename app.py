@@ -2,8 +2,16 @@ import streamlit as st
 import numpy as np
 from tensorflow.keras.models import load_model
 import pickle
+import random
 
-# Load model and tokenizer
+# Configure the app
+st.set_page_config(
+    page_title="Guess the Next Word!",
+    page_icon="🎮",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 try:
     model = load_model('next_words.keras')
     tokenizer = pickle.load(open('token.pkl', 'rb'))
@@ -12,37 +20,74 @@ except Exception as e:
     st.stop()
 
 # Prediction function
-def predict_word(text):
-    try:
-        sequence = tokenizer.texts_to_sequences([text])
-        
-         # Check if the sequence is empty
-        if not sequence or len(sequence[0]) == 0:
-            return "Invalid input. Please enter meaningful text."
-            
-        sequence = np.array(sequence)
-        preds = np.argmax(model.predict(sequence), axis=-1)
-        predicted_word = ""
-        for key, value in tokenizer.word_index.items():
-            if value == preds:
-                predicted_word = key
-                break
-        return predicted_word if predicted_word else "No prediction available."
-    except Exception as e:
-        # Handle unexpected errors
-        return "An error occurred during prediction. Please try again."
-# Streamlit UI
-st.title("Next Word Prediction")
-st.markdown("Enter a sentence or phrase, and I will predict the next word.")
+def predict_word(text, context_length):
+    text_input = " ".join(text.split()[-context_length:])
+    sequence = tokenizer.texts_to_sequences([text_input])
+    sequence = np.array(sequence)
+    preds = model.predict(sequence)
+    predicted_index = np.argmax(preds, axis=-1)
+    predicted_word = None
+    for word, index in tokenizer.word_index.items():
+        if index == predicted_index:
+            predicted_word = word
+            break
+    return predicted_word
 
-user_input = st.text_input("Type your text here:")
+# Sidebar for navigation
+st.sidebar.title("🎮 Guess the Next Word!")
+st.sidebar.markdown("**Challenge yourself and guess the AI's next word prediction!**")
 
-if user_input:
-    # Split the text into the last three words (or less)
-    text_input = " ".join(user_input.split()[-3:])
+# App title
+st.title("🎮 Guess the Next Word!")
+st.markdown("### Enter a sentence, and let's see if you can guess what the AI predicts next!")
+
+# Game setup
+if "game_started" not in st.session_state:
+    st.session_state["game_started"] = False
+    st.session_state["score"] = 0
+    st.session_state["round"] = 1
+
+# Start the game
+if not st.session_state["game_started"]:
+    st.markdown("Click the button below to start the game!")
+    if st.button("Start Game 🎯"):
+        st.session_state["game_started"] = True
+        st.session_state["score"] = 0
+        st.session_state["round"] = 1
+# Game logic
+if st.session_state["game_started"]:
+    st.sidebar.write(f"**Round:** {st.session_state['round']} | **Score:** {st.session_state['score']}")
+
+    # User input
+    user_input = st.text_input("Type a sentence:", placeholder="Type your sentence here...")
+
     
-    # Get the prediction
-    predicted_word = predict_word(text_input)
-    
-    # Display the result
-    st.write(f"Predicted Next Word: **{predicted_word}**")
+    # Predict the word
+    if user_input and st.button("Predict 🔮"):
+        with st.spinner("AI is predicting..."):
+            predicted_word = predict_word(user_input,4)
+            st.session_state["predicted_word"] = predicted_word
+            st.markdown("### 📝 Make your guess!")
+
+    # Guess the word
+    if "predicted_word" in st.session_state:
+        guess = st.text_input("What's your guess?")
+        if guess:
+            if guess.lower() == st.session_state["predicted_word"]:
+                st.success(f"🎉 Correct! The predicted word is **{st.session_state['predicted_word']}**.")
+                st.session_state["score"] += 1
+            else:
+                st.error(f"❌ Oops! The correct word was **{st.session_state['predicted_word']}**.")
+            st.session_state["round"] += 1
+            st.button("Next Round 🔄", on_click=lambda: st.session_state.pop("predicted_word", None))
+
+    # Scoreboard and restart option
+    st.sidebar.markdown("### 🎲 Game Controls")
+    if st.sidebar.button("Restart Game"):
+        st.session_state["game_started"] = False
+        st.session_state["score"] = 0
+        st.session_state["round"] = 1
+
+# Footer
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Built with 💻 by AI Enthusiasts")
