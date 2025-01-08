@@ -24,4 +24,8 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
    ```bash
    streamlit run app.py
 ## Output
-![image](https://github.com/user-attachments/assets/9cd9e554-f755-4269-accf-bf39863e3cc5)
+
+
+https://github.com/user-attachments/assets/6f7727c1-e5a1-42cf-bed1-e4e60d12b9d8
+
+
