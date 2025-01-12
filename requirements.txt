@@ -6,3 +6,4 @@ transformers
 datasets
 torch
 gunicorn
+kagglehub
