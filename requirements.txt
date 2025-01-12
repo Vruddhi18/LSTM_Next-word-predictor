@@ -1,5 +1,5 @@
 Flask
-tensorflow-cpu
+tensorflow = 2.18.0
 gdown
 numpy
 transformers
