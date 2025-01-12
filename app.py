@@ -16,6 +16,7 @@ st.set_page_config(
 )
 
 try:
+    model = load_model('next_words.keras')
     tokenizer = pickle.load(open('token.pkl', 'rb'))
 except Exception as e:
     st.error("Error loading model or tokenizer. Please check your files.")
