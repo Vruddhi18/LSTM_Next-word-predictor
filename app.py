@@ -14,6 +14,46 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+import os
+import pickle
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
+import io
+
+# Define the scope and credentials path
+SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+CLIENT_SECRET_FILE = 'path_to_your_credentials.json'  # Replace with the path to your credentials file
+
+# Authenticate and get credentials
+creds = None
+if os.path.exists('token.json'):
+    creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+if not creds or not creds.valid:
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+    else:
+        flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+        creds = flow.run_local_server(port=0)
+    with open('token.json', 'w') as token:
+        token.write(creds.to_json())
+
+# Build the Drive API client
+service = build('drive', 'v3', credentials=creds)
+
+file_id = '1VmxkGEFA6XQV3guHviwgHlb55EpHa6aG'  
+
+# Get the file and save it locally
+request = service.files().get_media(fileId=file_id)
+fh = io.FileIO('next_words.keras', 'wb')
+downloader = MediaIoBaseDownload(fh, request)
+done = False
+while done is False:
+    status, done = downloader.next_chunk()
+
+print("Model file downloaded!")
+
 
 try:
     model = load_model('next_words.keras')
