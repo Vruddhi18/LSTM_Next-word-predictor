@@ -6,11 +6,11 @@ import random
 
 # Add these lines to the top of your main script
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress TensorFlow warnings
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU if not needed
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 import tensorflow as tf
-print("Devices:", tf.config.list_physical_devices())
+print("Devices:", tf.config.list_physical_devices())  # Confirm no GPU is used
+
 
 
 # Configure the app
