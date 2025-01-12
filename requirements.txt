@@ -1,5 +1,5 @@
 Flask
-tensorflow = 2.18.0
+tensorflow==2.18.0
 gdown
 numpy
 transformers
