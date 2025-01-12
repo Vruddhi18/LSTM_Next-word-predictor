@@ -27,7 +27,11 @@ total_words = len(tokenizer.word_index) + 1  # Add 1 for padding index
 input_sequences = []
 for i in range(1, len(text.split())):
     n_gram_sequence = text.split()[i-1:i+1]
-    input_sequences.append([tokenizer.word_index[word] for word in n_gram_sequence])
+    # Check if all words in n_gram_sequence exist in the tokenizer's word index
+    try:
+        input_sequences.append([tokenizer.word_index[word] for word in n_gram_sequence if word in tokenizer.word_index])
+    except KeyError:
+        continue  # Skip if any word is not found in the tokenizer
 
 # Pad sequences to ensure consistent input size
 max_sequence_length = 4
