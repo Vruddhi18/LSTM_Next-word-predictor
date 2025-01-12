@@ -6,7 +6,7 @@ import random
 
 # Add these lines to the top of your main script
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 import tensorflow as tf
 print("Devices:", tf.config.list_physical_devices())  # Confirm no GPU is used
