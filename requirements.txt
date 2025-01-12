@@ -1,5 +1,5 @@
 Flask
-tensorflow
+tensorflow-cpu
 gdown
 numpy
 transformers
