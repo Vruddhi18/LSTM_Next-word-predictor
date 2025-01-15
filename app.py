@@ -28,8 +28,6 @@ gdown.download(url, output_path, quiet=False)
 # Check if the model is loaded
 print("Model loaded successfully!")
 
-
-
 try:
     model = load_model(output_path)
     tokenizer = pickle.load(open('token.pkl', 'rb'))
