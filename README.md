@@ -9,7 +9,7 @@ The LSTM Next-Word Predictor is a deep learning-based application designed to pr
 - Trained on a predefined dataset for reliable predictions.  
 
 ## How It Works  
-1. The user inputs a word or sentence.  
+1. The user inputs a word or a sentence.  
 2. The model processes the input and predicts the most likely next word.  
 3. The output is displayed as a word suggestion for the user.  
 
